@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="rows">
+            {% for comment in comments %}
+        <p>{{ comment.text }}</p>
+        <p>Commented by: {{ comment.user.username }}</p>
+        <p>Commented on: {{ comment.created_at }}</p>
+        {% endfor %}
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                
+                            {% csrf_token %}
+                    
+                            {{form.as_p}}
+                            <button type="submit">comment</button>
+                    
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col3">
+                {{comment}}
+
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

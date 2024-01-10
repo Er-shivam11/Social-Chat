@@ -1,0 +1,268 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>ABlissify</title>
+
+    <link rel="icon" type="image/x-icon" href="/static/img/lo.png">
+    <!-- <link rel="icon" type="image/png" sizes="16x16" href="/static/img/lo.png"> -->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'scss/bootstrap.scss' %}">
+    <link rel="stylesheet" href="{% static 'css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/animate/animate.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/animate/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}">
+    <style>
+        .story-image,
+.profile-image {
+    border-radius: 50%;
+    width: 100px; /* Adjust the size as needed */
+    height: 100px; /* Adjust the size as needed */
+    object-fit: cover;
+    margin: 5px;
+}
+
+.stories {
+    display: flex;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scroll-behavior: smooth; /* Optional: Add smooth scrolling */
+
+
+}
+
+
+.profile {
+    text-align: center;
+    margin: 10px;
+}
+
+/* Add your other CSS styles here */
+/* Keyframes for pulsating animation */
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Apply the animation to the first image */
+.animated-dot {
+    animation: pulsate 1s infinite;
+}
+/* Style for the post card */
+.post-card {
+    /* max-width: 400px; */
+    margin: 0 auto;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Style for user info (avatar and username) */
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-name {
+    font-weight: bold;
+}
+
+/* Style for timestamp */
+.post-timestamp {
+    color: #777;
+}
+
+/* Style for the post image */
+.card-img-top {
+    width: 100%;
+}
+
+/* Style for post actions (like and comment buttons) */
+.like-button, .comment-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+/* Style for comments and avatars */
+.comment-section {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.comment {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.comment-text {
+    margin-left: 10px;
+}
+.circle {
+  position: relative;
+  margin: 20px;
+  height: 120px;
+  width: 120px;
+  background-color: orange;
+  border-radius: 50%;
+}
+
+.circle:before {
+  position: absolute;
+  content: '';
+  height: calc(100% + 5px); 
+  width: calc(100% + 5px); 
+  border: 8px dashed orange;
+  top: -13px;
+  left: -13px;
+  border-radius: inherit;
+  animation: spin 10s linear infinite;
+}
+
+@keyframes spin { 
+  100% { 
+    transform: rotateZ(360deg); 
+  }
+}
+/* Set the button's position to fixed */
+#upload-button {
+    position: fixed;
+    bottom: 20px; /* Adjust this value as needed for the desired spacing from the bottom */
+    left: 50px; /* Adjust this value as needed for the desired spacing from the right */
+    z-index: 1000; /* Ensure the button appears above other content */
+}
+
+.upload-post-button {
+    /* Style your button as needed */
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+    </style>
+</head>
+
+<body>
+    {% include "header.html" %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Circular profile images for stories -->
+                                <div class="stories">
+                                    {% for stpro in profile %}
+                                        <img src="/media/{{ stpro.profile_picture }}" alt="..." class="circle" >
+                                    {% endfor %}
+
+
+                                    {% for pro in othersprofile %}
+                                        <img src="/media/{{ pro.profile_picture }}" alt="..." class="circle" >
+                                    {% endfor %}                                   
+                                </div>
+
+
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {% for post in posts %}
+
+                    <div class="card post-card">
+                        <!-- Post header (user info, timestamp) -->
+                        <div class="card-header">
+                            <div class="user-info">
+                                <img class="user-avatar" src="/media/{{post.image}}" alt="User Profile">
+                                <p class="user-name">{{post.user}}</p>
+                            </div>
+
+                        </div>
+                        <div class="card-body">
+                            <img class="card-img-top" src="/media/{{post.image}}" alt="Post Image">
+                        </div>  
+
+                        <!-- Post actions (like button, comment button) -->
+                        <div class="card-body">
+                            <button class="like-button" data-post-id="{{ post.id }}" data-user-id="{{ user.id }}">
+                                <i class="fas fa-heart"></i> <span class="like-text">Like</span>
+                                <span class="like-count">{{ post.likes.count }}</span>
+                            </button>
+                            <button class="comment-button">
+                            <a href="{% url 'addcomment' post_id=post.id %}">Comment
+                                <i class="fas fa-comment"></i></a> 
+                            </button>
+                        </div>
+                    
+                        <!-- Comment section (you can add more comments dynamically using JavaScript) -->
+                        <div class="comment-section">
+                            {% for comment in post.comments %}
+                                <div class="comment">
+                                    <p class="comment-text">{{ comment.user.username }}:{{ comment.text }}</p>
+                                </div>
+                            {% empty %}
+                                <p>No comments yet.</p>
+                            {% endfor %}
+                            <!-- Add more comments here -->
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+
+                    </div>
+                  
+                </div>
+            </div>
+            
+
+
+        </div>
+    </div>
+    <div id="upload-button">
+        <button class="upload-post-button">Upload Post</button>
+    </div>
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/fontawesome.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+
+
+
+        <!-- Template Javascript -->
+
+</body>
+
+</html>

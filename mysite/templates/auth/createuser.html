@@ -1,0 +1,105 @@
+{% load static %}
+{%load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+</head>
+
+<body>
+    {% include "header.html" %}
+    <main role="main">
+        {% if showloader %}
+        <div class="load">
+            <div class="loader"></div>
+        </div>
+        {% endif %}
+
+        <div class="card-body text-center ">
+            <H1>CREATE USER</H1>
+        </div>
+        <div class="row justify-content-center ">
+            <div class="col-sm-8 bg-primary ">
+                <div class="card ">
+                    <div class="card-body">
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                               
+                                <div class="row">
+
+                                    <div class="col-4">
+                                        {{ createform.username|as_crispy_field}}
+                                    </div>
+                                    <div class="col-4">
+                                        {{ createform.password1|as_crispy_field}}
+                                    </div>
+                                    <div class="col-4">
+                                        {{ createform.password2|as_crispy_field}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        {{ createform.first_name|as_crispy_field }}
+                                    </div>
+                                    <div class="col-4">
+                                        {{ createform.last_name|as_crispy_field }}
+                                    </div>
+                                    <div class="col-4">
+                                        {{ createform.email|as_crispy_field }}
+                                    </div>
+                                </div>
+
+                                
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col text-center">
+                                            <button type="submit" class="btn btn-outline-primary">ADD USER</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.js' %}"></script>
+        <script src="{% static 'js/fontawesome.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+        <script>
+            $(document).ready(function () {
+                myFunction();
+            });
+            function myFunction() {
+                var user_type = document.getElementById("id_user_type");
+                var level_master_div = document.getElementById("div_id_level_master");
+                var level_master_select = document.getElementById("id_level_master");
+
+                if (user_type.value === "2") {  // Check if "Operator" is selected
+                    level_master_div.style.display = "block";
+                    level_master_select.disabled = false;  // Show the "Level master" field
+                    $("#id_level_master").prop("required", true)
+
+                } else {
+                    level_master_div.style.display = "none";
+                    level_master_select.disabled = true;
+                    $("#id_level_master").prop("required", false)
+                    // Hide the "Level master" field
+                }
+            }
+        </script>
+
+</body>
+
+</html>

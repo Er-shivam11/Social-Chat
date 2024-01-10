@@ -1,0 +1,230 @@
+{% load static %}
+{%load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+</head>
+<style>
+    * { box-sizing: border-box}
+body{
+  font-family: 'Asap', sans-serif;
+}
+.phoneswrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  padding: 10px 50px;
+  
+}
+
+.phone{
+  height:  600px;
+  width: 300px; 
+  padding: 10px 20px;
+  border-radius: 32px;
+  border: 8px solid #3e3e3e;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0px 17px 20px rgba(0, 0, 0, 0.15);
+
+}
+.phone_head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; 
+     align-items: center;
+    height: 45px;
+}
+.searchbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; 
+    align-items: center;
+    height: 45px;
+}
+.phone_head .title{
+  font-size: 24px;
+  font-weight: 500;
+  color: #34394F;
+}
+.icon_bubble.msg {
+    width: 30px;
+    height: 30px;
+    background: linear-gradient( 90deg, #d13eea, #53d9ea);
+    border-radius: 50%;
+}
+
+.divider {
+    height: 1px;
+    width: 111%;
+    background: linear-gradient( 90deg, #d13eea, #53d9ea);
+    margin-bottom: 12px;
+}
+.grad_pb{ background: linear-gradient( 90deg, #d13eea, #53d9ea);
+  color: white; 
+  }
+img.chat_avatar {
+    width: 45px;
+  height: 45px;
+    border-radius: 7px;
+  margin-right: 8px;
+}
+img.chat_avatar {
+    width: 45px;
+   box-shadow: 1px 6px 18px rgba(31, 37, 72, 0.45);
+    border-radius: 7px;
+}
+
+.chat {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0px;
+    border-bottom: 1px solid #d3d3d35e;
+}
+
+.contact_name {font-weight: 500;
+
+  color: #34394F;
+     font-size: 15px;
+    margin-bottom: 2px;}
+
+.contact_msg {
+   
+     font-size: 11px;
+    color: #a5a5a5;
+    font-weight: lighter;
+}
+.chat_info {width: 50%;}
+
+.chat_date {
+    font-size: 12px;
+    color: #5a5a5a;
+  margin-bottom: 2px;
+}
+
+.chat_new{
+  padding: 2px 5px;
+  font-size: 11px;
+  border-radius: 2px;
+}
+.chat_status {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.phone_footer {
+    position: absolute;
+    bottom: 0;
+    height: 61px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 0px;
+    background: linear-gradient(0deg, white 40%, #ffffffa1 85%, transparent 95%);
+}
+
+.footer_divider {
+    height: 5px;
+    width: 45%;
+    border-radius: 10px;
+  
+     margin-top: 35px;
+}
+</style>
+<body>
+    {% include "header.html" %}
+    
+    
+    <div class="container-fluid">
+        <div class="row content">
+            
+            <div class="col-sm-4">
+                
+                <div class="phoneswrapper">
+                    <div class="phone">
+                        <div class="phone_head">
+                            <div class="title"> Chats </div>
+                            <div class="icon_bubble msg"> </div>
+                        </div>
+                        <div class="searchbar">
+                            <form>
+                                <div class="mb-3">
+                                    <input name="search" required type="text" class="form-control" placeholder="search">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="divider"> </div>
+                        <div class="phone_body">
+                            {% for userlists in userlist %}
+                        
+                            <div class="chat">
+                                <img class="chat_avatar" src="/media/{{userlists.profile_picture}}">
+                                <div class="chat_info">
+                                    <tr>
+                                        <td>{{userlists.first_name}}</td>
+                                    </tr>
+
+                                </div>
+                                <div class="chat_status">
+                                    <div class="chat_date">9:20 PM</div>
+                                    <div class="chat_new grad_pb"> New </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div> 
+                    
+                        <div class="phone_footer">
+                            <div class="footer_divider grad_pb"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="card">
+                    <h5 class="card-header">Featured</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                            magna
+                            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat.
+                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+     
+    <footer class="container-fluid text-center fixed-bottom">
+        <p>Footer Text</p>
+    </footer>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/fontawesome.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    
+    
+    
+    
+</body>
+    
+</html>
