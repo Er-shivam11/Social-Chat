@@ -31,14 +31,13 @@ def messages(request):
     context = {"userprofile": user_profile, "userlist": user_list}
     return render(request, 'auth/messages.html', context)
 
-from django.shortcuts import render, redirect
 
 
 def chatPage(request, *args, **kwargs):
 	if not request.user.is_authenticated:
 		return redirect("login-user")
 	context = {}
-	return render(request, "messages.html", context)
+	return render(request, "chatPage.html", context)
 
 
 @login_required

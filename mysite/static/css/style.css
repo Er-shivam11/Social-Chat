@@ -180,7 +180,10 @@ h6,
 }
 
 .navbar-light .navbar-brand h1 {
-    color: #FFFFFF;
+    /* color: #FFFFFF; */
+    color: linear-gradient(to bottom right, var(--primary), var(--secondary));
+
+    
 }
 
 .navbar-light .navbar-brand img {
@@ -201,6 +204,8 @@ h6,
     .navbar-light .navbar-collapse {
         margin-top: 15px;
         border-top: 1px solid #DDDDDD;
+        background: linear-gradient(to bottom right, var(--primary), var(--secondary));
+        
     }
 
     .navbar-light .navbar-nav .nav-link,

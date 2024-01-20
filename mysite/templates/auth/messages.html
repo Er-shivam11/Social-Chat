@@ -148,106 +148,68 @@ img.chat_avatar {
     {% include "header.html" %}
     
     
-      <div class="row m-2 p-2 bg-secondary-gradient">
-        <div class="col-4 ">
+    <div class="container-fluid">
+        <div class="row content">
+            
+            <div class="col-sm-4">
                 
-            <div class="phoneswrapper ">
-                <div class="phone bg-dark">
-                    <div class="phone_head">
-                        <div class="title"> Chats </div>
-                        <div class="icon_bubble msg"> </div>
-                    </div>
-                    <div class="searchbar">
-                        <form>
-                            <div class="mb-3">
-                                <input name="search" required type="text" class="form-control" placeholder="search">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="divider"> </div>
-                    <div class="phone_body">
-                        {% for userlists in userlist %}
-                    
-                        <div class="chat">
-                            <img class="chat_avatar" src="/media/{{userlists.profile_picture}}">
-                            <div class="chat_info">
-                                <tr>
-                                    <td>{{userlists.first_name}}</td>
-                                </tr>
-
-                            </div>
-                            <div class="chat_status">
-                                <div class="chat_date">9:20 PM</div>
-                                <div class="chat_new grad_pb"> New </div>
-                            </div>
+                <div class="phoneswrapper">
+                    <div class="phone">
+                        <div class="phone_head">
+                            <div class="title"> Chats </div>
+                            <div class="icon_bubble msg"> </div>
                         </div>
-                        {% endfor %}
-                    </div> 
-                
-                    <div class="phone_footer">
-                        <div class="footer_divider grad_pb"> </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-8"><div class="card">
-            <h5 class="card-header">Hello, Welcome to my chat site! {{request.user}}</h5>
-            {% if request.user.is_authenticated %}
-                    <a href="{% url 'logout-user' %}">Logout</a>
-            {% endif %}
-            <div class="card-body">
-                <div class="header">
-                    <h1></h1>
-                </div>
-                
-                <div class="logout">
-                    
-                </div>
-                
-                <div class="chat-container">
-                    <div class="chat__item__container" id="id_chat_item_container">
-                        <br />
-                        <div class="input-container">
-                            <input type="text" id="id_message_send_input" placeholder="Type your message here" />
-                            <button type="submit" id="id_message_send_button">Send Message</button>
+                        <div class="searchbar">
+                            <form>
+                                <div class="mb-3">
+                                    <input name="search" required type="text" class="form-control" placeholder="search">
+                                </div>
+                            </form>
                         </div>
+                        <div class="divider"> </div>
+                        <div class="phone_body">
+                            {% for userlists in userlist %}
                         
+                            <div class="chat">
+                                <img class="chat_avatar" src="/media/{{userlists.profile_picture}}">
+                                <div class="chat_info">
+                                    <tr>
+                                        <td>{{userlists.first_name}}</td>
+                                    </tr>
+
+                                </div>
+                                <div class="chat_status">
+                                    <div class="chat_date">9:20 PM</div>
+                                    <div class="chat_new grad_pb"> New </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div> 
+                    
+                        <div class="phone_footer">
+                            <div class="footer_divider grad_pb"> </div>
+                        </div>
                     </div>
                 </div>
-                <script>
-                    const chatSocket = new WebSocket("ws://" + window.location.host + "/");
-                    chatSocket.onopen = function (e) {
-                        console.log("The connection was setup successfully !");
-                    };
-                    chatSocket.onclose = function (e) {
-                        console.log("Something unexpected happened !");
-                    };
-                    document.querySelector("#id_message_send_input").focus();
-                    document.querySelector("#id_message_send_input").onkeyup = function (e) {
-                        if (e.keyCode == 13) {
-                            document.querySelector("#id_message_send_button").click();
-                        }
-                    };
-                    document.querySelector("#id_message_send_button").onclick = function (e) {
-                        var messageInput = document.querySelector(
-                            "#id_message_send_input"
-                        ).value;
-                        chatSocket.send(JSON.stringify({ message: messageInput, username: "{{request.user.username}}" }));
-                    };
-                    chatSocket.onmessage = function (e) {
-                        const data = JSON.parse(e.data);
-                        var div = document.createElement("div");
-                        div.innerHTML = data.username + " : " + data.message;
-                        document.querySelector("#id_message_send_input").value = "";
-                        document.querySelector("#id_chat_item_container").appendChild(div);
-                    };
-                </script>
+            </div>
+            <div class="col-sm-8">
+                <div class="card">
+                    <h5 class="card-header">Featured</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                            magna
+                            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat.
+                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-      </div>
-    
+    </div> 
      
     <footer class="container-fluid text-center fixed-bottom">
         <p>Footer Text</p>
