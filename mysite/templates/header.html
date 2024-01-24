@@ -35,12 +35,11 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav mx-auto py-0">
                         {% if request.user.is_superuser %}
-                            <a href="{% url 'home' %}" class="nav-item nav-link active">Home</a>
-                        {% else %}
-                        <a href="{% url 'userhome' %}" class="nav-item nav-link active">Post</a>
-
+                        <a href="{% url 'home' %}" class="nav-item nav-link active">Home</a>
                         {% endif %}
 
+                        <a href="{% url 'userhome' %}" class="nav-item nav-link active">Post</a>
+                        <!-- <a href="{% url 'userprofile' %}" class="nav-item nav-link">Chat Rooms</a> -->
                         <a href="{% url 'messages' %}" class="nav-item nav-link">Chat</a>
                         {% if request.user.is_superuser %}
                             <a href="{% url 'userlist' %}" class="nav-item nav-link">UserList</a>

@@ -28,7 +28,7 @@ SECRET_KEY = "django-insecure-8nphtu6=vv0gsw8b5n)^m!gv5#fj_^9p7f9&66bem=%n*ek&9z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','db']
+ALLOWED_HOSTS = ['127.0.0.1','localhost','db',]
 
 
 # Application definition
@@ -92,22 +92,22 @@ ASGI_APPLICATION = "mysite.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'letschat',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#         'HOST': '',
-#         'PORT': '',
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'letschat',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    }
+}
 
 
 

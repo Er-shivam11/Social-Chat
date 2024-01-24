@@ -9,12 +9,13 @@ services:
       - "8002:8002"
     volumes:
       - .:/app
+   
 
+  
 
- 
-
-
-      
-
-
- 
+  phpMyAdmin:
+    image: phpmyadmin
+    environment:
+      PMA_ARBITRARY: 1
+    ports:
+      - "9091:80"

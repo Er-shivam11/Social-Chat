@@ -1,3 +1,4 @@
+{%load static %}
 <!DOCTYPE html>
 <html>
 <style>
@@ -63,7 +64,10 @@
             background-color: #0056b3;
         }
 </style>
+
 <body>
+    {% include "header.html" %}
+
     <div class="header">
         <h1>Hello, Welcome to my chat site! {{request.user}}</h1>
     </div>
