@@ -103,9 +103,9 @@ DATABASES = {
 #         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'letschat',
 #         'USER': 'root',
-#         'PASSWORD': 'root',
-#         'HOST': 'db',
-#         'PORT': '3306'
+#         'PASSWORD': '',
+#         'HOST': '',
+#         'PORT': '',
 #     }
 # }
 

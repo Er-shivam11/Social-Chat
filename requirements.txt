@@ -1,0 +1,8 @@
+asgiref==3.7.2
+channels==4.0.0
+daphne==4.0.0
+Django==4.2.5
+mysqlclient==2.2.0
+crispy-bootstrap4==2022.1
+django-crispy-forms==2.0
+Pillow==9.4.0
