@@ -1,68 +1,96 @@
-{%load static %}
+{% load static %}
 <!DOCTYPE html>
 <html>
 <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
 
-        .header {
-            text-align: center;
-            margin-top: 20px;
-        }
+    .header {
+        text-align: center;
+        margin-top: 20px;
+    }
 
-        .header h1 {
-            font-size: 24px;
-            color: #333;
-        }
+    .header h1 {
+        font-size: 24px;
+        color: #333;
+    }
 
-        .logout {
-            text-align: center;
-            margin-top: 10px;
-        }
+    .logout {
+        text-align: center;
+        margin-top: 10px;
+    }
 
-        .logout a {
-            text-decoration: none;
-            color: #007BFF;
-        }
+    .logout a {
+        text-decoration: none;
+        color: #007BFF;
+    }
 
-        .chat-container {
-            background-color: #fff;
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+    .chat-container {
+        background-color: #fff;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
 
-        .input-container {
-            margin-top: 20px;
-            text-align: center;
-        }
+    .message-container {
+        height: 300px; /* Set the fixed height for the chat container */
+        overflow-y: auto; /* Make the container scrollable on the Y-axis */
+    }
 
-        #id_message_send_input {
-            width: 80%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
+    .message-box {
+        margin-bottom: 10px;
+        overflow: auto;
+    }
 
-        #id_message_send_button {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+    .sender-message {
+        background-color: #007BFF;
+        color: #fff;
+        border-radius: 5px;
+        padding: 10px;
+        max-width: 70%;
+        float: left;
+    }
 
-        #id_message_send_button:hover {
-            background-color: #0056b3;
-        }
+    .receiver-message {
+        background-color: #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        max-width: 70%;
+        float: right;
+        color:black;
+    }
+
+    .input-container {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    #id_message_send_input {
+        width: 80%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    #id_message_send_button {
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    #id_message_send_button:hover {
+        background-color: #0056b3;
+    }
 </style>
 
 <body>
@@ -71,49 +99,66 @@
     <div class="header">
         <h1>Hello, Welcome to my chat site! {{request.user}}</h1>
     </div>
-    
+
     <div class="logout">
         {% if request.user.is_authenticated %}
         <a href="{% url 'logout-user' %}">Logout</a>
         {% endif %}
     </div>
-    
+
     <div class="chat-container">
-        <div class="chat__item__container" id="id_chat_item_container">
-            <br />
-            <div class="input-container">
-                <input type="text" id="id_message_send_input" placeholder="Type your message here" />
-                <button type="submit" id="id_message_send_button">Send Message</button>
-            </div>
-            
+        <div class="message-container" id="id_message_container"></div>
+        <div class="input-container">
+            <input type="text" id="id_message_send_input" placeholder="Type your message here" />
+            <button type="submit" id="id_message_send_button">Send Message</button>
         </div>
     </div>
+
     <script>
         const chatSocket = new WebSocket("ws://" + window.location.host + "/");
         chatSocket.onopen = function (e) {
-            console.log("The connection was setup successfully !");
+            console.log("The connection was set up successfully!");
         };
         chatSocket.onclose = function (e) {
-            console.log("Something unexpected happened !");
+            console.log("Something unexpected happened!");
         };
+
         document.querySelector("#id_message_send_input").focus();
         document.querySelector("#id_message_send_input").onkeyup = function (e) {
             if (e.keyCode == 13) {
                 document.querySelector("#id_message_send_button").click();
             }
         };
+
         document.querySelector("#id_message_send_button").onclick = function (e) {
-            var messageInput = document.querySelector(
-                "#id_message_send_input"
-            ).value;
-            chatSocket.send(JSON.stringify({ message: messageInput, username: "{{request.user.username}}" }));
+            var messageInput = document.querySelector("#id_message_send_input").value;
+            chatSocket.send(
+                JSON.stringify({
+                    message: messageInput,
+                    username: "{{request.user.username}}",
+                })
+            );
         };
+
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            var div = document.createElement("div");
-            div.innerHTML = data.username + " : " + data.message;
+            var messageContainer = document.querySelector("#id_message_container");
+            var messageBox = document.createElement("div");
+            messageBox.className = "message-box";
+
+            var messageDiv = document.createElement("div");
+            messageDiv.className =
+                data.username === "{{request.user.username}}"
+                    ? "sender-message"
+                    : "receiver-message";
+            messageDiv.innerHTML = data.username + ": " + data.message;
+
+            messageBox.appendChild(messageDiv);
+            messageContainer.appendChild(messageBox);
+
+            // Scroll to the bottom after adding a new message
+            messageContainer.scrollTop = messageContainer.scrollHeight;
             document.querySelector("#id_message_send_input").value = "";
-            document.querySelector("#id_chat_item_container").appendChild(div);
         };
     </script>
 </body>
