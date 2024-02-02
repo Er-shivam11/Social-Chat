@@ -73,6 +73,15 @@ def edit_post(request, post_id):
     
     return render(request, 'editpost.html', {'form': form, 'posts': posts})
 
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+
+    if request.method == 'POST':
+        post.delete()
+        return redirect('home')  # Replace 'home' with your homepage URL name
+
+    return render(request, 'deletepost.html', {'post': post})
+
 def follow_user(request, user_id):
     # Get the user you want to follow
     user_to_follow = get_object_or_404(CustomUser, id=user_id)

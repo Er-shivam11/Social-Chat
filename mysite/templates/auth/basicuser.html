@@ -86,11 +86,14 @@ body {
                 <div class="py-4 px-4">
                     <div class="d-flex align-items-center justify-content-between mb-3">
                         <h5 class="mb-0">Recent photos</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                        <a href="{% url 'createpost'  %}" class="nav-item nav-link">Create Post</a>
+
                     </div>
                     <div class="row">
                         {% for post in userpost %}
                         <div class="col-lg-4 mb-2 pr-lg-1">
                             <a href="{% url 'editpost' post_id=post.id %}" class="nav-item nav-link">Edit Post</a>
+                            <a href="{% url 'deletepost' post_id=post.id %}" class="nav-item nav-link">Delete  Post</a>
                             <img src="/media/{{post.image}}" alt="" class="img-fluid rounded shadow-sm">
                         </div>
                         {% if forloop.counter|divisibleby:3 and not forloop.last %}

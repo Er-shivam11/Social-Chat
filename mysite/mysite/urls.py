@@ -31,6 +31,7 @@ urlpatterns = [
     path('messages', views.messages, name='messages'),
     path('createpost', views.create_post, name='createpost'),
     path('edit_post/<int:post_id>/', views.edit_post, name='editpost'),
+     path('delete/<int:post_id>/', views.delete_post, name='deletepost'),
     path('addcomment/<int:post_id>/', views.add_comment, name='addcomment'),
     path('toggle_like/<int:post_id>/', views.toggle_like, name='toggle_like'),
 

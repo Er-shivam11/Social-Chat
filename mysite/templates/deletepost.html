@@ -4,7 +4,7 @@
 <html>
 
 <head>
-    <title>Lets chat</title>
+    <title>Delete Post</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
@@ -18,23 +18,27 @@
     <link rel="stylesheet" href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}">
     
 </head>
+</head>
 
 <body>
-    <h1>Edit Post</h1>
+    <h1>Delete Post</h1>
     <div class="container p-3">
-        <h3 class="text-center">SHOP BY CATEGORY</h3>
     
         <div class="row justify-content-center">
     
             <!-- Card 1 -->
             <div class="col-md-4">
                 <div class="card">
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                
-                        <button type="submit">Save Changes</button>
+                    <h2>Delete Post</h2>
+                    <p>Are you sure you want to delete the following post?</p>
+                    <p>{{ post.title }}</p>
+
+                    <form method="post">
+                      {% csrf_token %}
+                      <button type="submit">Confirm Delete</button>
                     </form>
+                
+                    <a href="{% url 'home' %}">Cancel</a>
                     
                     <h2>Existing Posts</h2>
                     <ul>
