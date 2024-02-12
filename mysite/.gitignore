@@ -6,6 +6,9 @@ __pycache__
 db.sqlite3
 media
 migrations
+mysite/db.sqlite3
+mysite/.dbdata
+mysite/media
 
 # Backup files # 
 *.bak 
