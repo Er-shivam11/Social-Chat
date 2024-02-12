@@ -33,11 +33,21 @@ def messages(request):
 
 
 
+from django.db.models import Q  # Import Q object for complex queries
+
 def chatPage(request, *args, **kwargs):
-	if not request.user.is_authenticated:
-		return redirect("login-user")
-	context = {}
-	return render(request, "chatPage.html", context)
+    if not request.user.is_authenticated:
+        return redirect("login-user")
+    
+    user_profile = CustomUser.objects.filter(username=request.user.username).first()  # Use first() to get a single object or None
+
+    user_list = CustomUser.objects.filter(~Q(username=request.user.username) & ~Q(is_superuser=True) & Q(is_active=True))
+
+    if request.GET.get('search'):
+        user_list = user_list.filter(first_name__icontains=request.GET.get('search'))
+
+    context = {"userprofile": user_profile, "userlist": user_list}
+    return render(request, "chatPage.html", context)
 
 
 @login_required

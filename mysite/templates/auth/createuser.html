@@ -33,9 +33,13 @@
                         <form method="POST" action="" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="form-group">
-                               
+                               <div class="row">
+                                <div class="col-8">
+                                    {{ createform.profile_picture|as_crispy_field}}
+                                </div>
+                               </div>
                                 <div class="row">
-
+                                    
                                     <div class="col-4">
                                         {{ createform.username|as_crispy_field}}
                                     </div>
@@ -47,6 +51,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    
                                     <div class="col-4">
                                         {{ createform.first_name|as_crispy_field }}
                                     </div>
@@ -55,6 +60,12 @@
                                     </div>
                                     <div class="col-4">
                                         {{ createform.email|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    
+                                    <div class="col-4">
+                                        {{createform.user_type|as_crispy_field}}
                                     </div>
                                 </div>
 

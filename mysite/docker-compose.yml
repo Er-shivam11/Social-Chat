@@ -9,10 +9,7 @@ services:
       - "8002:8002"
     volumes:
       - .:/app
-   
-
-  
-
+      
   phpMyAdmin:
     image: phpmyadmin
     environment:

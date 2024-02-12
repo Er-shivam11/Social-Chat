@@ -11,7 +11,7 @@ class UserType(models.Model):
     is_active = models.BooleanField(blank=False,null=True)
 
     class Meta:
-        db_table = 'tbl_username'
+        db_table = 'tbl_usertype'
         verbose_name = 'User Type'
         verbose_name_plural = 'Users Type'
     

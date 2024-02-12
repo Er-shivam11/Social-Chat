@@ -42,8 +42,10 @@ urlpatterns = [
     path('login/', accounts.loginuser, name='login'),
      path('signup/', accounts.signup, name='signup'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-
     path('createuser/', accounts.createuser, name='createuser'),
+    path('update_user/<str:pk>/', accounts.updateuser, name='updateuser'),
+    path('delete_user/<str:pk>/', accounts.deleteuser, name='deleteuser'),
+
     path('user_profile/', accounts.userprofile, name='userprofile'),
     path('user_list/', accounts.userlist, name='userlist'),
     path('basicuserprofile/', accounts.basicuserprofile, name='basicuserprofile'),

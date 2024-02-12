@@ -65,7 +65,7 @@ def createuser(request):
     if request.user.is_superuser:
 
         if request.method == 'POST':
-            create_form = RegisterForm(request.POST)
+            create_form = RegisterForm(request.POST,request.FILES)
             
             if create_form.is_valid():
                 create_form.save()
@@ -81,6 +81,38 @@ def createuser(request):
     context = {'createform': create_form}
     return render(request, 'auth/createuser.html',context )
 
+@login_required(login_url="login")
+def deleteuser(request, pk):
+    delete_user=CustomUser.objects.get(id=pk)
+    delete_user_form=RegisterForm(instance=delete_user)
+    if  request.user.is_superuser:
+        
+        delete_user.is_active = False
+        delete_user.save()
+        return redirect('userlist')
+    else:
+        return HttpResponse('you are not allowed')    
+@login_required(login_url="login")
+def updateuser(request, pk):
+    
+    update_user_det = CustomUser.objects.get(id=pk)
+
+
+    update_user_form=RegisterForm(instance=update_user_det)
+    if request.user.is_superuser or request.user.username:
+    # if request.user != 'admin' or request.user.is_superuser:
+    #     
+        if request.method=='POST':
+            update_user_form = RegisterForm(request.POST, request.FILES, instance=update_user_det)
+            if update_user_form.is_valid():
+                update_user_form.save()
+                return redirect('userlist')
+    else:
+        return HttpResponse('you are not allowed')  
+    context={
+        "updateregisterform": update_user_form
+    }
+    return render(request, 'auth/updateuser.html', context)
 
 def checksuperusre(request):
     if User.objects.filter(is_superuser=True).exists():

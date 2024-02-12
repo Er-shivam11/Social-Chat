@@ -556,3 +556,149 @@ input[type="password"] {
 }
 
 
+.story-image,
+.profile-image {
+    border-radius: 50%;
+    width: 100px; /* Adjust the size as needed */
+    height: 100px; /* Adjust the size as needed */
+    object-fit: cover;
+    margin: 5px;
+}
+
+.stories {
+    display: flex;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scroll-behavior: smooth; /* Optional: Add smooth scrolling */
+
+
+}
+
+
+.profile {
+    text-align: center;
+    margin: 10px;
+}
+
+/* Add your other CSS styles here */
+/* Keyframes for pulsating animation */
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Apply the animation to the first image */
+.animated-dot {
+    animation: pulsate 1s infinite;
+}
+/* Style for the post card */
+.post-card {
+    /* max-width: 400px; */
+    margin: 0 auto;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Style for user info (avatar and username) */
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-name {
+    font-weight: bold;
+}
+
+/* Style for timestamp */
+.post-timestamp {
+    color: #777;
+}
+
+/* Style for the post image */
+.card-img-top {
+    width: 100%;
+}
+
+/* Style for post actions (like and comment buttons) */
+.like-button, .comment-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+/* Style for comments and avatars */
+.comment-section {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.comment {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.comment-text {
+    margin-left: 10px;
+}
+.circle {
+  position: relative;
+  margin: 20px;
+  height: 120px;
+  width: 120px;
+  background-color: orange;
+  border-radius: 50%;
+}
+
+.circle:before {
+  position: absolute;
+  content: '';
+  height: calc(100% + 5px); 
+  width: calc(100% + 5px); 
+  border: 8px dashed orange;
+  top: -13px;
+  left: -13px;
+  border-radius: inherit;
+  animation: spin 10s linear infinite;
+}
+
+@keyframes spin { 
+  100% { 
+    transform: rotateZ(360deg); 
+  }
+}
+/* Set the button's position to fixed */
+#upload-button {
+    position: fixed;
+    bottom: 20px; /* Adjust this value as needed for the desired spacing from the bottom */
+    left: 50px; /* Adjust this value as needed for the desired spacing from the right */
+    z-index: 1000; /* Ensure the button appears above other content */
+}
+
+.upload-post-button {
+    /* Style your button as needed */
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+

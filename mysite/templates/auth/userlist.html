@@ -56,7 +56,10 @@
                                     <!-- <td>{{userlist.level_master}}</td> -->
                                     <td>{{userlist.last_login}}</td>
 
-                                    
+                                    <td>
+                                        <a href="{% url 'updateuser' userlist.id %}" class="btn btn-primary">UPDATE</a>
+                                        <a href="{% url 'deleteuser' userlist.id %}" class="btn btn-danger">REMOVE</a>
+                                    </td>
 
                                 </tr>
 
