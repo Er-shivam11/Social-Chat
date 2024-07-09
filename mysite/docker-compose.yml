@@ -9,6 +9,20 @@ services:
       - "8002:8002"
     volumes:
       - .:/app
+    depends_on:
+      - db
+
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: letschat
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - .dbdata:/var/lib/mysql
+    ports:
+      - 3307:3307
       
   phpMyAdmin:
     image: phpmyadmin

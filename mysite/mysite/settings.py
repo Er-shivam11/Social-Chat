@@ -28,7 +28,7 @@ SECRET_KEY = "django-insecure-8nphtu6=vv0gsw8b5n)^m!gv5#fj_^9p7f9&66bem=%n*ek&9z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','db',]
+ALLOWED_HOSTS = ['127.0.0.1','localhost','db','localhost']
 
 
 # Application definition
@@ -103,11 +103,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'letschat',
         'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+        'PASSWORD': 'root',
+        'HOST': 'db',
+        'PORT': '3306',
     }
 }
+
+
 
 
 
