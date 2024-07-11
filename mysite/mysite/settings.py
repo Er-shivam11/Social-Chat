@@ -28,7 +28,7 @@ SECRET_KEY = "django-insecure-8nphtu6=vv0gsw8b5n)^m!gv5#fj_^9p7f9&66bem=%n*ek&9z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','db','localhost']
+ALLOWED_HOSTS = ['127.0.0.1','localhost','db']
 
 
 # Application definition
@@ -98,19 +98,30 @@ ASGI_APPLICATION = "mysite.asgi.application"
 #         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
+
+#for docker
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'letschat',
+#         'USER': 'root',
+#         'PASSWORD': 'root',
+#         'HOST': 'db',
+#         'PORT': '3306',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'letschat',
         'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'db',
-        'PORT': '3306',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
     }
 }
-
-
-
 
 
 

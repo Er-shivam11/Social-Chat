@@ -27,38 +27,53 @@
         <div class="container-xxl position-relative p-0 " id="home">
             <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
                 <a href="" class="navbar-brand p-0">
-                    <h1 class="m-0"><img src="/static/img/lo.png" alt="Logo">ABlissify</h1>
+                    <h1 class="m-0"><img src="/static/img/lo.png" alt="Logo"> ABlissify</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav mx-auto py-0">
+                <div class="collapse navbar-collapse justify-content-start" id="navbarCollapse">
+                    <ul class="navbar-nav mr-auto">
                         {% if request.user.is_superuser %}
-                        <a href="{% url 'home' %}" class="nav-item nav-link active">Home</a>
-                    
+                        <li class="nav-item">
+                            <a href="{% url 'home' %}" class="nav-link">Home</a>
+                        </li>
                         {% endif %}
-
-                        <a href="{% url 'userhome' %}" class="nav-item nav-link active">Post</a>
-                        <!-- <a href="{% url 'userprofile' %}" class="nav-item nav-link">Chat Rooms</a> -->
-                        <a href="http://127.0.0.1:8000/chat" class="nav-item nav-link">Chat</a>
+                        <li class="nav-item">
+                            <a href="{% url 'userhome' %}" class="nav-link">Post</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://127.0.0.1:8000/chat" class="nav-link">Chat</a>
+                        </li>
                         {% if request.user.is_superuser %}
-                            <a href="{% url 'userlist' %}" class="nav-item nav-link">UserList</a>
-                            <a href="{% url 'createuser' %}" class="nav-item nav-link active">createuser</a>
-
+                        <li class="nav-item">
+                            <a href="{% url 'userlist' %}" class="nav-link">UserList</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'createuser' %}" class="nav-link">Create User</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="{% url 'basicuserprofile' %}" class="nav-link">Profile</a>
+                        </li>
                         {% endif %}
-                        <a href="{% url 'basicuserprofile' %}" class="nav-item nav-link">Profile</a>
                         {% if not user.is_authenticated %}
-                        <a href="{% url 'createuser' %}" class="nav-item nav-link">Sign-up</a>
+                        <li class="nav-item">
+                            <a href="{% url 'createuser' %}" class="nav-link">Sign-up</a>
+                        </li>
                         {% endif %}
-                        <a href="{% url 'checksuperusre' %}" class="nav-item nav-link">Notifications</a>
-                        <a href="{% url 'logout' %}" class="nav-item nav-link">Log Out</a>
-                    </div>
-
-                    <a href="" class="btn btn-primary-gradient rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Start Free
-                        Trial</a>
+                        <li class="nav-item">
+                            <a href="{% url 'checksuperusre' %}" class="nav-link">Notifications</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'logout' %}" class="nav-link">Log Out</a>
+                        </li>
+                    </ul>
+                    <a href="" class="btn btn-primary-gradient rounded-pill py-2 px-4 ms-3 d-none d-lg-block">Start Free Trial</a>
                 </div>
             </nav>
+            
+            
         
            
         </div>

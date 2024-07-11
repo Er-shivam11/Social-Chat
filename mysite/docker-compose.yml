@@ -22,7 +22,7 @@ services:
     volumes:
       - .dbdata:/var/lib/mysql
     ports:
-      - 3307:3307
+      - 3306:3306
       
   phpMyAdmin:
     image: phpmyadmin
