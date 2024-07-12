@@ -151,7 +151,7 @@ h6,
     font-family: 'Jost', sans-serif;
     font-size: 18px;
     font-weight: 500;
-    color: var(--light) !important;
+    color: black;
     outline: none;
     transition: .5s;
 }
