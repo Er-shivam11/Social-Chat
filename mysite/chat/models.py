@@ -33,3 +33,4 @@ class Like(models.Model):
     class Meta:
         ordering = ['created_at']
         db_table = 'tbl_like'
+

@@ -556,30 +556,40 @@ input[type="password"] {
 }
 
 
-.story-image,
 .profile-image {
     border-radius: 50%;
-    width: 100px; /* Adjust the size as needed */
-    height: 100px; /* Adjust the size as needed */
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     margin: 5px;
+    border: 2px solid transparent; /* Set border initially transparent */
+    filter: drop-shadow(0 0 10px #FF53cd); /* Neon glow effect */
+    display: block; /* Ensure block display for proper alignment */
 }
+
+.profile-name {
+    text-align: center; /* Center align text */
+    margin-top: 5px; /* Adjust margin as needed */
+}
+
+.profile {
+    text-align: center; /* Center align entire profile block */
+    margin: 10px;
+}
+
+
 
 .stories {
     display: flex;
     justify-content: flex-start;
     overflow-x: auto;
     scroll-behavior: smooth; /* Optional: Add smooth scrolling */
-
-
 }
-
 
 .profile {
     text-align: center;
     margin: 10px;
 }
-
 /* Add your other CSS styles here */
 /* Keyframes for pulsating animation */
 @keyframes pulsate {

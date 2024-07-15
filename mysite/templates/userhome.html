@@ -45,13 +45,18 @@
                                 <!-- Circular profile images for stories -->
                                 <div class="stories">
                                     {% for stpro in profile %}
-                                        <img src="/media/{{ stpro.profile_picture }}" alt="..." class="circle" >
+                                    <div class="profile">
+                                        <img src="/media/{{ stpro.profile_picture }}" alt="Profile Picture" class="profile-image" >
+                                        <div class="profile-name">{{ stpro.first_name }}</div>
+                                    </div>
                                     {% endfor %}
-
-
+                                
                                     {% for pro in othersprofile %}
-                                        <img src="/media/{{ pro.profile_picture }}" alt="..." class="circle" >
-                                    {% endfor %}                                   
+                                    <div class="profile">
+                                        <img src="/media/{{ pro.profile_picture }}" alt="Profile Picture" class="profile-image" >
+                                        <div class="profile-name">{{ pro.first_name }}</div>
+                                    </div>
+                                    {% endfor %}
                                 </div>
 
 

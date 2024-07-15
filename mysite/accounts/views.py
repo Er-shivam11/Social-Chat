@@ -156,10 +156,12 @@ def basicuserprofile(request):
 def userhome(request):
     posts = Post.objects.all().order_by('-created_at')
     profile=CustomUser.objects.filter(username=request.user.username)
-    print(profile)
+    print(profile,'this is profile')
     others_profile=CustomUser.objects.exclude(username=request.user.username)
+    print(others_profile,'this is other profile')
     for post in posts:
         post.comments = Comment.objects.filter(post=post).order_by('-created_at')
+
     
     return render(request,"userhome.html", {'posts': posts,'profile':profile,'othersprofile':others_profile})
 

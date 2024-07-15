@@ -225,70 +225,63 @@ img.chat_avatar {
 <body>
     {% include "header.html" %}
     
-    
     <div class="container-fluid">
         <div class="row content">
-            
             <div class="col-sm-4">
-                
                 <div class="phoneswrapper">
                     <div class="phone">
                         <div class="phone_head">
-                            <div class="title"> Chats </div>
-                            <div class="icon_bubble msg"> </div>
+                            <div class="title">Chats</div>
+                            <div class="icon_bubble msg"></div>
                         </div>
                         <div class="searchbar">
-                            <form>
+                            <form method="GET">
                                 <div class="mb-3">
                                     <input name="search" required type="text" class="form-control" placeholder="search">
                                 </div>
                             </form>
                         </div>
-                        <div class="divider"> </div>
+                        <div class="divider"></div>
                         <div class="phone_body">
-                            {% for userlists in userlist %}
-                        
-                            <div class="chat">
-                                <img class="chat_avatar" src="/media/{{userlists.profile_picture}}">
-                                <div class="chat_info">
-                                    <tr>
-                                        <td>{{userlists.first_name}}</td>
-                                    </tr>
-
-                                </div>
-                                <div class="chat_status">
-                                    <div class="chat_date">9:20 PM</div>
-                                    <div class="chat_new grad_pb"> New </div>
-                                </div>
-                            </div>
+                            {% for user in userlist %}
+                                <a href="#" class="user-chat-link" data-username="{{ user.username }}">
+                                    <div class="chat">
+                                        <img class="chat_avatar" src="/media/{{ user.profile_picture }}">
+                                        <div class="chat_info">
+                                            <div>{{ user.first_name }}</div>
+                                        </div>
+                                        <div class="chat_status">
+                                            <div class="chat_date">9:20 PM</div>
+                                            <div class="chat_new grad_pb">New</div>
+                                        </div>
+                                    </div>
+                                </a>
                             {% endfor %}
-                        </div> 
-                    
+                        </div>
                         <div class="phone_footer">
-                            <div class="footer_divider grad_pb"> </div>
+                            <div class="footer_divider grad_pb"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-sm-8">
-                <div class="card">
-                    <h5 class="card-header">Featured</h5>
-                    <div class="header">
-                        <h1>Hello, Welcome to my chat site! {{request.user}}</h1>
-                    </div>
-                
+                <div class="card chat-container" style="display: none;">
                     <div class="logout">
                         {% if request.user.is_authenticated %}
-                        <a href="{% url 'logout-user' %}">Logout</a>
+                            <a href="{% url 'logout-user' %}">Logout</a>
                         {% endif %}
                     </div>
+                    <h5 class="card-header">Chat with <span id="chat-username"></span></h5>
+                  
                 
-                    <div class="chat-container">
-                        <div class="message-container" id="id_message_container"></div>
-                        <div class="input-container">
-                            <input type="text" id="id_message_send_input" placeholder="Type your message here" />
-                            <button type="submit" id="id_message_send_button">Send Message</button>
-                        </div>
+                   
+                
+                    <div class="message-container" id="id_message_container">
+                        <!-- Messages will be loaded here -->
+                    </div>
+                    <div class="input-container">
+                        <input type="text" id="id_message_send_input" placeholder="Type your message here" />
+                        <button type="submit" id="id_message_send_button">Send Message</button>
                     </div>
                 
                     <script>
@@ -299,52 +292,62 @@ img.chat_avatar {
                         chatSocket.onclose = function (e) {
                             console.log("Something unexpected happened!");
                         };
-                
+
                         document.querySelector("#id_message_send_input").focus();
                         document.querySelector("#id_message_send_input").onkeyup = function (e) {
                             if (e.keyCode == 13) {
                                 document.querySelector("#id_message_send_button").click();
                             }
                         };
-                
+
                         document.querySelector("#id_message_send_button").onclick = function (e) {
                             var messageInput = document.querySelector("#id_message_send_input").value;
                             chatSocket.send(
                                 JSON.stringify({
                                     message: messageInput,
-                                    username: "{{request.user.username}}",
+                                    username: "{{ request.user.username }}",
+                                    recipient: document.querySelector("#chat-username").textContent,
                                 })
                             );
                         };
-                
+
                         chatSocket.onmessage = function (e) {
                             const data = JSON.parse(e.data);
                             var messageContainer = document.querySelector("#id_message_container");
                             var messageBox = document.createElement("div");
                             messageBox.className = "message-box";
-                
+
                             var messageDiv = document.createElement("div");
                             messageDiv.className =
-                                data.username === "{{request.user.username}}"
+                                data.username === "{{ request.user.username }}"
                                     ? "sender-message"
                                     : "receiver-message";
                             messageDiv.innerHTML = data.username + ": " + data.message;
-                
+
                             messageBox.appendChild(messageDiv);
                             messageContainer.appendChild(messageBox);
-                
+
                             // Scroll to the bottom after adding a new message
                             messageContainer.scrollTop = messageContainer.scrollHeight;
                             document.querySelector("#id_message_send_input").value = "";
                         };
+
+                        // Handle user chat link clicks
+                        const userChatLinks = document.querySelectorAll('.user-chat-link');
+                        userChatLinks.forEach(link => {
+                            link.addEventListener('click', function(event) {
+                                event.preventDefault();
+                                const username = this.getAttribute('data-username');
+                                document.querySelector('.chat-container').style.display = 'block';
+                                document.querySelector('#chat-username').textContent = username;
+
+                                // Optionally, load previous messages here if needed
+                                // You can make an AJAX request to load messages between current user and `username`
+                            });
+                        });
                     </script>
                 </div>
             </div>
         </div>
     </div> 
-     
-
-    
 </body>
-
-</html>
