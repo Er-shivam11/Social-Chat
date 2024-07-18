@@ -14,6 +14,7 @@ from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from chat.models import Post,Comment
+from django.shortcuts import get_object_or_404
 
 
 from django import forms
@@ -93,23 +94,36 @@ def deleteuser(request, pk):
     else:
         return HttpResponse('you are not allowed')    
 @login_required(login_url="login")
+@login_required(login_url="login")
 def updateuser(request, pk):
-    
-    update_user_det = CustomUser.objects.get(id=pk)
+    update_user_det = get_object_or_404(CustomUser, id=pk)
 
-
-    update_user_form=RegisterForm(instance=update_user_det)
     if request.user.is_superuser or request.user.username:
-    # if request.user != 'admin' or request.user.is_superuser:
-    #     
-        if request.method=='POST':
+        if request.method == 'POST':
             update_user_form = RegisterForm(request.POST, request.FILES, instance=update_user_det)
+            print("Form data:", request.POST)
             if update_user_form.is_valid():
-                update_user_form.save()
-                return redirect('userlist')
+                print("Form is valid")
+                # Check if the username has changed
+                if update_user_form.cleaned_data['username'] != update_user_det.username:
+                    # Check if the new username already exists
+                    if CustomUser.objects.filter(username=update_user_form.cleaned_data['username']).exists():
+                        update_user_form.add_error('username', 'A user with that username already exists.')
+                        print("Username already exists")
+                    else:
+                        update_user_form.save()
+                        return redirect('userlist')
+                else:
+                    update_user_form.save()
+                    return redirect('userlist')
+            else:
+                print("Form errors:", update_user_form.errors)
+        else:
+            update_user_form = RegisterForm(instance=update_user_det)
     else:
-        return HttpResponse('you are not allowed')  
-    context={
+        return HttpResponse('You are not allowed')
+
+    context = {
         "updateregisterform": update_user_form
     }
     return render(request, 'auth/updateuser.html', context)

@@ -2,7 +2,7 @@ from .models import CustomUser
 from django import forms
 
 from django.contrib.auth.forms import UserCreationForm
-from accounts.models import CustomUser
+from accounts.models import CustomUser,UserType
 
 
 
@@ -16,8 +16,10 @@ class RegisterForm(UserCreationForm):
     first_name = forms.CharField(required=True, label="First Name")
     last_name = forms.CharField(required=False, label="Last Name")
     email = forms.EmailField(required=True, label="Email Address")
+    user_type = forms.ModelChoiceField(queryset=UserType.objects.all(), required=True, label='User Type')
+
     
-    # level_master = forms.ModelMultipleChoiceField(queryset=LevelMaster.objects.all(),
+    # level_master = forms.ModelMultipleChoiceField(queryset=UserType.objects.all(),
     #                                               required=False, label='Select levels', widget=forms.CheckboxSelectMultiple)
 
     
