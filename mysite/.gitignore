@@ -1,14 +1,14 @@
-# mysite/.dbdata/mysql.sock
+mysite/.dbdata/mysql.sock
 
 
 # # Django #
-# # *.log
-# # *.pot
-# # *.pyc
-# # __pycache__
-# db.sqlite3
-# # media
-# # migrations
+# *.log
+# *.pot
+# *.pyc
+# __pycache__
+db.sqlite3
+media
+migrations
 
 # # Backup files # 
 # *.bak 
@@ -100,14 +100,14 @@
 # # SageMath parsed files 
 # *.sage.py 
 
-# # Environments 
-# # .env 
-# # .venv 
-# # env/ 
-# # venv/ 
-# # ENV/ 
-# # env.bak/ 
-# # venv.bak/ 
+# Environments 
+.env 
+.venv 
+env/ 
+venv/ 
+ENV/ 
+env.bak/ 
+venv.bak/ 
 
 # # mkdocs documentation 
 # /site 
