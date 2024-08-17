@@ -31,13 +31,36 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-2">
                 
-                <a href="{% url 'createpost' %}">create post
-                    <i class="fas fa-comment"></i></a> 
-
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Explore</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Reels</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Messages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Notifications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'createpost' %}">Create</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'basicuserprofile' %}">Profile</a>
+                    </li>
+                </ul>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="card text-center">
                     <div class="card-header">
                         <div class="row">
@@ -58,67 +81,70 @@
                                     </div>
                                     {% endfor %}
                                 </div>
-
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {% for post in posts %}
+                                <div class="post mb-4">
+                                    <!-- Post Header -->
+                                    <div class="post-header d-flex align-items-center">
+                                        <!-- User Profile Image -->
+                                        <img src="{{ post.profile_picture.url }}" alt="User Profile" class="rounded-circle" style="width: 40px; height: 40px;">
+                                        <!-- Username -->
+                                        <div class="ml-2">{{ post.user.username }}</div>
+                                    </div>
+                                    <!-- Post Image -->
+                                    <img src="{{ post.image.url }}" class="img-fluid mt-3" alt="Post Image">
+                                    <!-- Post Actions -->
+                                    <div class="post-actions d-flex justify-content-between mt-2">
+                                        <button class="btn btn-outline-primary like-button">
+                                            <i class="fas fa-heart"></i> Like ({{ post.likes.count }})
+                                        </button>
+                                        <a href="{% url 'addcomment' post_id=post.id %}" class="btn btn-outline-secondary">
+                                            <i class="fas fa-comment"></i> Comment
+                                        </a>
+                                    </div>
+                                    <!-- Comments Section -->
+                                    <div class="comments mt-3">
+                                        {% for comment in post.comments %}
+                                        <div class="comment">
+                                            <strong>{{ comment.user.username }}:</strong> {{ comment.text }}
+                                        </div>
+                                        {% empty %}
+                                        <p>No comments yet.</p>
+                                        {% endfor %}
+                                    
 
                             </div>
                         </div>
-                        
+                        {% endfor %}
                     </div>
-                    {% for post in posts %}
-
-                    <div class="card post-card">
-                        <!-- Post header (user info, timestamp) -->
-                        <div class="card-header">
-                            <div class="user-info">
-                                <img class="user-avatar" src="/media/{{post.image}}" alt="User Profile">
-                                
-                                <p class="user-name">{{post.user}}</p>
-
-                            </div>
-
-                        </div>
-                        <div class="card-body">
-                            <img class="card-img-top" src="/media/{{ post.image }}" alt="Post Image" style="width: 700px; height: 700px; object-fit: cover;">
-                        </div>
-                         
-
-                        <!-- Post actions (like button, comment button) -->
-                        <div class="card-body">
-                            <button class="like-button" data-post-id="{{ post.id }}" data-user-id="{{ user.id }}">
-                                <i class="fas fa-heart"></i> <span class="like-text">Like</span>
-                                <span class="like-count">{{ post.likes.count }}</span>
-                            </button>
-                            <button class="comment-button">
-                            <a href="{% url 'addcomment' post_id=post.id %}">Comment
-                                <i class="fas fa-comment"></i></a> 
-                            </button>
-                        </div>
-                    
-                        <!-- Comment section (you can add more comments dynamically using JavaScript) -->
-                        <div class="comment-section">
-                            {% for comment in post.comments %}
-                                <div class="comment">
-                                    <p class="comment-text">{{ comment.user.username }}:{{ comment.text }}</p>
-                                </div>
-                            {% empty %}
-                                <p>No comments yet.</p>
-                            {% endfor %}
-                            <!-- Add more comments here -->
-                        </div>
-                    </div>
-                    {% endfor %}
-                    
-
-                    </div>
-                  
-                </div>
+                </div>  
             </div>
             
-            
-
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Suggestions for You</h5>
+                    </div>
+                    <div class="card-body">
+                        {% for user in suggestions %}
+                        <div class="suggestion d-flex align-items-center mb-3">
+                            <img src="/media/{{ user.profile_picture }}" alt="User Profile" class="rounded-circle" style="width: 40px; height: 40px;">
+                            <div class="ml-3">
+                                <strong>{{ user.username }}</strong>
+                                <button class="btn btn-sm btn-outline-primary ml-2">Follow</button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
+    
     
         <script src="{% static 'js/jquery.min.js' %}"></script>
         <script src="{% static 'js/bootstrap.js' %}"></script>

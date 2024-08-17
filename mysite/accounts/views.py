@@ -92,8 +92,8 @@ def deleteuser(request, pk):
         delete_user.save()
         return redirect('userlist')
     else:
-        return HttpResponse('you are not allowed')    
-@login_required(login_url="login")
+        return HttpResponse('you are not allowed')  
+      
 @login_required(login_url="login")
 def updateuser(request, pk):
     update_user_det = get_object_or_404(CustomUser, id=pk)
@@ -159,7 +159,7 @@ def userprofile(request):
 
 def basicuserprofile(request):
     user_profile = CustomUser.objects.filter(username=request.user.username)
-    user_post=Post.objects.filter(user=request.user.username) 
+    user_post=Post.objects.filter(user=request.user) 
     
     print(user_profile)
 
@@ -169,13 +169,15 @@ def basicuserprofile(request):
 
 def userhome(request):
     posts = Post.objects.all().order_by('-created_at')
-    profile=CustomUser.objects.filter(username=request.user.username)
+    profile=CustomUser.objects.filter(username=request.user)
+    user_profile = CustomUser.objects.get(username=request.user)
     print(profile,'this is profile')
-    others_profile=CustomUser.objects.exclude(username=request.user.username)
+    others_profile=CustomUser.objects.exclude(username=request.user)
     print(others_profile,'this is other profile')
     for post in posts:
         post.comments = Comment.objects.filter(post=post).order_by('-created_at')
+        post.profile_picture = post.user.profile_picture
 
     
-    return render(request,"userhome.html", {'posts': posts,'profile':profile,'othersprofile':others_profile})
+    return render(request,"userhome.html", {'posts': posts,'profile':profile,'othersprofile':others_profile,'user_profile':user_profile})
 
