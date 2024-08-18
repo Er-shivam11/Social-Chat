@@ -558,8 +558,8 @@ input[type="password"] {
 
 .profile-image {
     border-radius: 50%;
-    width: 100px;
-    height: 100px;
+    width: 75px;
+    height: 75px;
     object-fit: cover;
     margin: 5px;
     border: 2px solid transparent; /* Set border initially transparent */
