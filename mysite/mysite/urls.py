@@ -34,6 +34,8 @@ urlpatterns = [
      path('delete/<int:post_id>/', views.delete_post, name='deletepost'),
     path('addcomment/<int:post_id>/', views.add_comment, name='addcomment'),
     path('toggle_like/<int:post_id>/', views.toggle_like, name='toggle_like'),
+    path('follow/<int:user_id>/', views.follow_user, name='follow_user'),
+    path('unfollow/<int:user_id>/', views.unfollow_user, name='unfollow_user'),
 
 
 

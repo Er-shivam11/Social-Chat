@@ -10,6 +10,9 @@ from django.shortcuts import get_object_or_404, redirect
 from accounts.models import UserRelationship  # Import the UserRelationship model
 
 from .models import Post, Comment, Like
+from django.shortcuts import redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from accounts.models import UserRelationship, CustomUser
 
 from .models import Post  # Import your Post model
 from .forms import PostForm  , CommentForm# Import your PostForm
@@ -54,7 +57,8 @@ def create_post(request):
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
-            post.user = request.user
+            # Explicitly convert request.user to CustomUser instance
+            post.user = CustomUser.objects.get(pk=request.user.pk)
             post.save()
             return redirect('userhome')
     else:
@@ -90,17 +94,24 @@ def delete_post(request, post_id):
 
     return render(request, 'deletepost.html', {'post': post})
 
+
+
+@login_required
 def follow_user(request, user_id):
     # Get the user you want to follow
     user_to_follow = get_object_or_404(CustomUser, id=user_id)
 
     # Ensure that the user is not trying to follow themselves
-    if request.user != user_to_follow:
+    if request.user.id != user_to_follow.id:  # Compare IDs directly to avoid issues
+        # Fetch the actual CustomUser instance for request.user
+        current_user = CustomUser.objects.get(id=request.user.id)
+        
         # Create a UserRelationship object representing the follow
-        UserRelationship.objects.get_or_create(user=request.user, followed_user=user_to_follow)
+        UserRelationship.objects.get_or_create(user=current_user, followed_user=user_to_follow)
 
     # Redirect to the user's profile or any other appropriate page
-    return redirect('user_profile', user_id=user_id)
+    return redirect('userhome')
+
 
 def unfollow_user(request, user_id):
     # Get the user you want to unfollow

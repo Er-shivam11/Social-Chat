@@ -167,17 +167,34 @@ def basicuserprofile(request):
     return render(request,"auth/basicuser.html",context)
 
 
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+
+@login_required
 def userhome(request):
     posts = Post.objects.all().order_by('-created_at')
-    profile=CustomUser.objects.filter(username=request.user)
-    user_profile = CustomUser.objects.get(username=request.user)
-    print(profile,'this is profile')
-    others_profile=CustomUser.objects.exclude(username=request.user)
-    print(others_profile,'this is other profile')
+    
+    # Fetch the profile and handle the case where it doesn't exist
+    try:
+        user_profile = CustomUser.objects.get(username=request.user.username)
+    except CustomUser.DoesNotExist:
+        user_profile = None
+    
+    profile = CustomUser.objects.filter(username=request.user.username)
+    others_profile = CustomUser.objects.exclude(username=request.user.username)
+    
+    print(profile, 'this is profile')
+    print(others_profile, 'this is other profile')
+
+    # Populate comments and profile pictures for posts
     for post in posts:
         post.comments = Comment.objects.filter(post=post).order_by('-created_at')
         post.profile_picture = post.user.profile_picture
-
     
-    return render(request,"userhome.html", {'posts': posts,'profile':profile,'othersprofile':others_profile,'user_profile':user_profile})
+    return render(request, "userhome.html", {
+        'posts': posts,
+        'profile': profile,
+        'othersprofile': others_profile,
+        'user_profile': user_profile
+    })
 

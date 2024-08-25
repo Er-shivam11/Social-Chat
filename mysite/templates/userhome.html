@@ -135,7 +135,12 @@
                                 <img src="/media/{{ sug.profile_picture }}" alt="User Profile" class="rounded-circle" style="width: 40px; height: 40px;">
                                 <strong class="ml-2">{{ sug.username }}</strong>
                             </div>
-                            <button class="btn btn-sm btn-outline-primary">Follow</button>
+                            <form method="POST" action="{% url 'follow_user' sug.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-primary">Follow</button>
+                            </form>
+                            
+
 
                         </div>
                         {% endfor %}
