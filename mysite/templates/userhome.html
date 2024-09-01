@@ -129,24 +129,32 @@
                         <h5>Suggestions for You</h5>
                     </div>
                     <div class="card-body">
-                        {% for sug in othersprofile %}
-                        <div class="suggestion d-flex align-items-center justify-content-between mb-3">
-                            <div class="d-flex align-items-center">
-                                <img src="/media/{{ sug.profile_picture }}" alt="User Profile" class="rounded-circle" style="width: 40px; height: 40px;">
-                                <strong class="ml-2">{{ sug.username }}</strong>
-                            </div>
-                            <form method="POST" action="{% url 'follow_user' sug.id %}">
+                        {% for sug in suggestions %}
+                        <div class="suggestion d-flex align-items-center mb-3 p-2 border rounded">
+                            <!-- User Profile Picture -->
+                            <img src="/media/{{ sug.profile_picture }}" alt="User Profile" class="rounded-circle mr-3" style="width: 40px; height: 40px;">
+                            
+                            <!-- User Name -->
+                            <p class="mb-0 flex-grow-1">{{ sug.username }}</p>
+                    
+                            <!-- Follow Button -->
+                            <form class="follow-form" method="POST" action="{% url 'follow_user' sug.id %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-sm btn-outline-primary">Follow</button>
                             </form>
-                            
-
-
                         </div>
+                        {% empty %}
+                            <p>No more suggestions available.</p>
                         {% endfor %}
                     </div>
+                    
                 </div>
             </div>
+            
+       
+
+            
+            
             
 
         </div>
@@ -154,6 +162,7 @@
     
     
         <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/follow.js' %}"></script>
         <script src="{% static 'js/bootstrap.js' %}"></script>
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
         <script src="{% static 'js/fontawesome.js' %}"></script>

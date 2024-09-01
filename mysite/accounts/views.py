@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from .forms import RegisterForm
-from accounts.models import CustomUser
+from accounts.models import CustomUser,Follow
 from django.http import HttpResponse
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 from chat.models import Post,Comment
 from django.shortcuts import get_object_or_404
 
-
+from django.http import JsonResponse
 from django import forms
 from django.db.models import Q
 
@@ -157,14 +157,45 @@ def userprofile(request):
 
     return render(request, "auth/userprofile.html", context)
 
-def basicuserprofile(request):
-    user_profile = CustomUser.objects.filter(username=request.user.username)
-    user_post=Post.objects.filter(user=request.user) 
-    
-    print(user_profile)
+def follow_user(request, user_id):
+    if request.method == 'POST':
+        user_to_follow = get_object_or_404(CustomUser, id=user_id)
+        follow_relationship, created = Follow.objects.get_or_create(follower=request.user, following=user_to_follow)
 
-    context = {"userprofile": user_profile,"userpost":user_post}
-    return render(request,"auth/basicuser.html",context)
+        if not created:  # Already following, so unfollow
+            follow_relationship.delete()
+            is_following = False
+        else:
+            is_following = True
+        
+        # Count followers and following
+        follower_count = user_to_follow.followers.count()
+        following_count = request.user.following.count()
+
+        return JsonResponse({
+            'is_following': is_following,
+            'follower_count': follower_count,
+            'following_count': following_count,
+        })
+    
+def basicuserprofile(request):
+    user_profile = CustomUser.objects.get(username=request.user.username)
+    
+    # Get follower and following counts
+    follower_count = Follow.objects.filter(following=user_profile).count()
+    following_count = Follow.objects.filter(follower=user_profile).count()
+
+    # Get the list of users the current user is following
+    following_users = Follow.objects.filter(follower=user_profile).values_list('following_id', flat=True)
+
+    context = {
+        "userprofile": user_profile,
+        "follower_count": follower_count,
+        "following_count": following_count,
+        "following_users": following_users,
+    }
+    return render(request, "auth/basicuser.html", context)
+
 
 
 from django.contrib.auth.decorators import login_required
@@ -182,9 +213,12 @@ def userhome(request):
     
     profile = CustomUser.objects.filter(username=request.user.username)
     others_profile = CustomUser.objects.exclude(username=request.user.username)
+    following_ids = Follow.objects.filter(follower=user_profile).values_list('following_id', flat=True)
+    suggestions = CustomUser.objects.exclude(id__in=following_ids).exclude(id=user_profile.id)
+    print(suggestions)
     
-    print(profile, 'this is profile')
-    print(others_profile, 'this is other profile')
+    # print(profile, 'this is profile')
+    # print(others_profile, 'this is other profile')
 
     # Populate comments and profile pictures for posts
     for post in posts:
@@ -195,6 +229,27 @@ def userhome(request):
         'posts': posts,
         'profile': profile,
         'othersprofile': others_profile,
-        'user_profile': user_profile
+        'user_profile': user_profile,
+        'suggestions':suggestions
     })
 
+def follow_user(request, user_id):
+    if request.method == 'POST':
+        user_to_follow = get_object_or_404(CustomUser, id=user_id)
+        follow_relationship, created = Follow.objects.get_or_create(follower=request.user, following=user_to_follow)
+
+        if not created:  # Already following, so unfollow
+            follow_relationship.delete()
+            is_following = False
+        else:
+            is_following = True
+        
+        # Count followers and following
+        follower_count = user_to_follow.followers.count()
+        following_count = request.user.following.count()
+
+        return JsonResponse({
+            'is_following': is_following,
+            'follower_count': follower_count,
+            'following_count': following_count,
+        })
