@@ -179,9 +179,10 @@ def follow_user(request, user_id):
         })
     
 def basicuserprofile(request):
+    # Retrieve the single user profile object
     user_profile = CustomUser.objects.get(username=request.user.username)
-    
-    # Get follower and following counts
+    user_post=Post.objects.filter(user=request.user) 
+    # Count followers and following using the single user object
     follower_count = Follow.objects.filter(following=user_profile).count()
     following_count = Follow.objects.filter(follower=user_profile).count()
 
@@ -189,10 +190,11 @@ def basicuserprofile(request):
     following_users = Follow.objects.filter(follower=user_profile).values_list('following_id', flat=True)
 
     context = {
-        "userprofile": user_profile,
+        "userprofile": user_profile,  # Pass a single user profile object
         "follower_count": follower_count,
         "following_count": following_count,
         "following_users": following_users,
+        'userpost':user_post
     }
     return render(request, "auth/basicuser.html", context)
 

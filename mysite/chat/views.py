@@ -90,7 +90,7 @@ def delete_post(request, post_id):
 
     if request.method == 'POST':
         post.delete()
-        return redirect('home')  # Replace 'home' with your homepage URL name
+        return redirect('userhome')  # Replace 'home' with your homepage URL name
 
     return render(request, 'deletepost.html', {'post': post})
 
